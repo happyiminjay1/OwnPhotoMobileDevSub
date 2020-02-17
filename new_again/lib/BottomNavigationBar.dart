@@ -237,24 +237,44 @@ class Home extends StatelessWidget {
   };
   
   Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+    future: getPhotos(), // a previously-obtained Future<String> or null
+    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+      Widget wid;
+      if (snapshot.hasData) {
+        wid =
+          GridView.extent(
+            maxCrossAxisExtent: 150,
+            padding: const EdgeInsets.all(4),
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            children: _buildGridTileList(user.results[0].coverphotos.length,headersMap,context));
+
+      }
+      else if (snapshot.hasError) {
+        wid = 
+          Icon(
+            Icons.error_outline,
+            color: Colors.red,
+            size: 60,
+          );
+      } 
+      else {
+       wid =
+          Center(child: CircularProgressIndicator());
+    }
+
+      return wid;
+    }
+    );
     /*
-    return Image.network( 
-      'http://192.168.86.36:3000/media/photos/'+user.results[0].coverphotos[1].imagehash+'.jpg',
-      headers: headersMap,
-      //fit: BoxFit.contain,
-      //height: 50, 
-    );*/
-    print('1');
-    getPhotos();
-    print('2');
     return GridView.extent(
     maxCrossAxisExtent: 150,
     padding: const EdgeInsets.all(4),
     mainAxisSpacing: 4,
     crossAxisSpacing: 4,
-    children: _buildGridTileList(user.results[0].coverphotos.length,headersMap,context));
+    children: _buildGridTileList(user.results[0].coverphotos.length,headersMap,context));*/
   }
-  
 }
 
 List<Container> _buildGridTileList(int count, Map<String, String> headersMap,BuildContext context) { 
@@ -263,12 +283,12 @@ List<Container> _buildGridTileList(int count, Map<String, String> headersMap,Bui
       child: GestureDetector(
         onTap: (){
           Navigator.push(context, new MaterialPageRoute(builder: (context)=>FullPage(
-            'http://192.168.86.36:3000/media/photos/'+user.results[0].coverphotos[i].imagehash+'.jpg',
+            'http://192.168.86.24:3000/media/photos/'+user.results[0].coverphotos[i].imagehash+'.jpg',
             headersMap
           )));
         },
         child: 
-        Image.network('http://192.168.86.36:3000/media/photos/'+user.results[0].coverphotos[i].imagehash+'.jpg',
+        Image.network('http://192.168.86.24:3000/media/photos/'+user.results[0].coverphotos[i].imagehash+'.jpg',
         headers: headersMap
         )
       ),
@@ -285,7 +305,7 @@ List<Container> _buildGridTileList(int count, Map<String, String> headersMap,Bui
     );
   }
 
-void getPhotos () async{
+Future<String> getPhotos () async{
   String username = 'admin';
   String password = 'here1234';
   String basicAuth =
@@ -298,7 +318,7 @@ void getPhotos () async{
     'authorization': basicAuth
  };
 
-  Response r = await get('http://192.168.86.36:3000/api/albums/thing/list/',
+  Response r = await get('http://192.168.86.24:3000/api/albums/thing/list/',
   headers: headers);
   print(r.statusCode);
   print(r.body);
@@ -310,8 +330,9 @@ void getPhotos () async{
   print(user.results[0].coverphotos[1].imagehash);
   print(user.results[0].coverphotos.length);  
   print("function end!");
+  return 'finished';
 }
-
+//Problem : getPhotos doesn't asynchroci
 textStyle() {
   return new TextStyle(color: Colors.white, fontSize: 30.0);
 }

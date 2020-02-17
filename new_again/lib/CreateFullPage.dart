@@ -30,12 +30,19 @@ class _FullPageState extends State<FullPage>{
 //final formKey = new GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
-    return new Scaffold(
-        backgroundColor: Colors.black,
-        body: Image.network(
-          src,
-          headers: headersMap,
+    return Center(
+      child: Container(
+        alignment: Alignment(0, 0),
+        child: GestureDetector(
+        onTap: (){Navigator.pop(context);},
+        child: 
+          Image.network(
+                src,
+                headers: headersMap,
+                fit: BoxFit.contain,
+          ),
         ),
+      ),
     );
   }
 }

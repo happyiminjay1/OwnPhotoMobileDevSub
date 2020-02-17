@@ -138,7 +138,7 @@ Widget showPrimaryButton(BuildContext context) {
 _makePostRequest(BuildContext context) async {
   // set up POST request arguments
 
-  String url = 'http://192.168.86.36:3000/api/auth/token/obtain/';
+  String url = 'http://192.168.86.24:3000/api/auth/token/obtain/';
   Map<String, String> headers = {"Content-Type": "application/json"};
   String json = '{"username": "'+data.id+'", "password": "'+data.password+'"}';
   // make POST request
