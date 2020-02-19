@@ -1,5 +1,0 @@
-class Data {
-  String userId;
-  String id;
-  String password;
-}

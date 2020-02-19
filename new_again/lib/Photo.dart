@@ -28,14 +28,14 @@ class Photo {
 class Results {
   //int id;
   List<CoverPhotos> coverphotos;
-  //String title;
+  String title;
   //int photocount;
   Results(
       {
        //this.id,
        //this.coverphotos,
        this.coverphotos,
-       //this.title,
+       this.title,
        //this.photocount,
       });
 
@@ -45,8 +45,7 @@ class Results {
     return Results(
         //id: json["id"],
         coverphotos: coverphotosList,
-
-        //title: json["title"] as String,
+        title: parsedJson["title"],
         //photocount: json["photo_count"],
     );
   }

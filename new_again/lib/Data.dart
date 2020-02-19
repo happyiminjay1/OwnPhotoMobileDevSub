@@ -5,3 +5,4 @@ class Data {
   String password;
   String cookie;
 }
+
